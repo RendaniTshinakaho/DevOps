@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using QueryIt.Interfaces;
 using QueryIt.IRepository;
 
 namespace QueryIt.Repository
 {
-    public class SqlRepository<T> : IRepository<T> where T : class
+    public class SqlRepository<T> : IRepository<T> where T : class,IEntity,new()
     {
         private DbContext _context;
         private DbSet<T> _set;
@@ -25,22 +23,25 @@ namespace QueryIt.Repository
 
         public void Add(T newEntity)
         {
-            _set.Add(newEntity);
+            if (newEntity.IsValid())
+            {
+                _set.Add(newEntity); 
+            }
         }
 
         public void Delete(T entity)
         {
-            throw new NotImplementedException();
+            _set.Remove(entity);
         }
 
         public T FindById(int id)
         {
-            throw new NotImplementedException();
+          return  _set.Find(id);
         }
 
         public IQueryable<T> FindAll()
         {
-            throw new NotImplementedException();
+            return _set;
         }
 
         public int Commit()
