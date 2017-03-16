@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace QueryIt.Domain
 {
-    class Manager
+   public class Manager:Employee
     {
+       public override void DoWork()
+       {
+           Console.WriteLine("Create a meeting");
+       }
     }
 }
